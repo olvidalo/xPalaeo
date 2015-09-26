@@ -1,0 +1,128 @@
+<div id="main">
+
+
+<div>
+  <div class="main col-md-3">
+  <h3><a href="#/">Übersicht</a></h3>
+  <h3>Texte</h3>
+    <ul>
+      <li ng-repeat="exercise in exercises.activities">
+        <a ng-href="#/?activity={{exercise.activity.id|encodeUri}}">{{exercise.activity.definition.name['en-US']}}</a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="over-view col-md-6" ng-hide="activitySet" ng-controller="UserOverviewController">
+    <h1>Übersicht für {{currentActor.name}}</h1>
+    <h3>Begonnene Transkriptionen</h3>
+    <ul>
+      <li ng-repeat="transcription in startedTranscriptions">
+        <a ng-href="#/?activity={{transcription.object.id|encodeUri}}">{{titleForActivity(transcription.object.id)}}</a>
+      </li>
+    </ul>
+    <h3>Eingereichte Transkriptionen, unbewertet</h3>
+    <ul>
+      <li ng-repeat="transcription in submittedTranscriptions" >
+        <a href="" ng-click="hide=!hide">{{titleForActivity(transcription.object.id)}}</a>
+        <div class="transcriptioncontent" ng-show="hide">
+          <prettify target="TEIs"><code class="prettyprint lang-xml">{{transcription.result.response}}</code></prettify>
+        </div>
+        <ul>
+          <li ng-repeat="correction in corrections[transcription.id]">
+            <a href="" ng-click="hide=!hide">Korrekturvorschlag von {{correction.actor.name}}</a>
+            <div class="correctioncontent" ng-show="hide">
+              <prettify target="TEIs"><code class="prettyprint lang-xml">{{correction.result.response}}</code></prettify>
+            </div>
+          </li>
+        </ul>
+      </li>
+    </ul>
+ 
+  <h3>Eingereichte Transkriptionen, bewertet</h3>
+  <ul>
+    <li ng-repeat="transcription in gradedTranscriptions">
+      <a href="" ng-click="hide=!hide">{{titleForActivity(transcription.object.id)}}</a>
+      <div class="transcriptioncontent" ng-show="hide">
+        <prettify target="TEIs"><code class="prettyprint lang-xml">{{transcription.result.response}}</code></prettify>
+      </div>
+    </li>
+  </ul>
+
+  <h3>Aktivitätshistorie</h3>
+  <activitystream user="{{currentActor.mbox}}"></activitystream>
+  </div>
+
+
+
+  <div class="transcription-view col-md-6" ng-if="activitySet" ng-controller="TranscriptionController">
+    <div ng-show="active">
+    <h2>{{tei.teiHeader.fileDesc.sourceDesc.msDesc.msContents.msItemStruct.title}}</h2>
+    <h4 ng-if="correctionMode">{{origUser}}</h4>
+    <h4 class="success" ng-if="!correctionMode && currentActivityHasBeenSubmitted">eingereicht</h4>
+    <div class="facsimile">
+      <img ng-src="{{tei.facsimile.surface.graphic._url}}"/>
+    </div>
+    <div class="transcription">
+      <form ng-if="isLoggedIn && !correctionMode && !currentActivityHasBeenSubmitted">
+        <div 
+          ng-show="transcriptionStarted == true"
+          ng-model="$parent.transcription"
+          ui-ace="{
+            useWrapMode : false,
+            showGutter: false,
+            theme:'solarized_light',
+            mode: 'xml',
+            firstLineNumber: 5
+          }"
+          style="height:200px;"></div>
+        <input type="submit" class="btn" ng-show="transcriptionStarted == false" value="Transkription beginnen" ng-click="startTranscription()"/>
+        <input type="submit" class="btn" ng-show="transcriptionStarted == true" value="Speichern und verlassen" ng-click="saveTranscription()"/>
+        <input type="submit" class="btn btn-success" ng-show="transcriptionStarted == true" value ="Einreichen" ng-click="submitTranscription()"/>
+        <input type="submit" class="btn btn-danger" ng-show="transcriptionStarted == true" value="Transkription abbrechen" ng-click="cancelTranscription()"/>
+      </form>
+
+
+
+      <form ng-if="isLoggedIn && correctionMode">
+        <div class="row">
+      <div class="col-md-6">
+        <prettify target="TEIs"><code class="prettyprint lang-xml">{{transcription}}</code></prettify>
+        <input type="submit" class="btn" ng-show="correctionStarted == false" value="Korrekturvorschlag beginnen" ng-click="startCorrection()"/>
+
+      </div>
+      <div class="col-md-6">
+            <div 
+              ng-show="correctionStarted == true"
+              ng-model="$parent.correctedTranscription"
+              ui-ace="{
+                useWrapMode : false,
+                showGutter: false,
+                theme:'solarized_light',
+                mode: 'xml',
+                firstLineNumber: 5
+              }"
+              style="height:200px;"></div>
+              <input type="submit" class="btn btn-success" ng-show="correctionStarted == true" value = "Korrekturvorschlag einreichen" ng-click="submitCorrection()"/>
+         </div>
+    </div>
+      </form>
+    </div>
+    </div>
+  </div>
+
+  <div class="transcriptionlist-view col-md-3" ng-controller="TranscriptionListController" ng-if="currentActivity">
+  <div ng-if="currentActivityHasBeenSubmitted">
+    <h4>Meine Transkription</h4>
+      <ul>
+        <li><a ng-href="#/{{currentActor.mbox|encodeUri}}?activity={{currentActivity|encodeUri}}">Bearbeiten</a></li>
+      </ul>
+      <h4>Transkriptionen anderer Benutzer</h4>
+      <ul>
+        <li ng-repeat="transcription in transcriptions"><a ng-href="#/corr/{{transcription.id}}?activity">{{transcription.actor.name}}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div>
+

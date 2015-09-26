@@ -1,0 +1,26 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#" ng-class="$root.group">xPalaeo <span ng-show="$root.group == 'teachers'">Dozent</span></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse" ng-controller="UserController">
+      <form class="navbar-form navbar-right" role="form">
+        <div class="form-group">
+          <input type="text" placeholder="Email" class="form-control" ng-model="user" ng-disabled="isLoggedIn">
+        </div>
+        <div class="form-group">
+          <input type="password" placeholder="Password" class="form-control" ng-model="password" ng-hide="isLoggedIn">
+        </div>
+        <button type="submit" class="btn btn-success" ng-click="login()" ng-hide="isLoggedIn">Sign in</button>
+        <button type="submit" class="btn btn-cancel" ng-click="logout()" ng-show="isLoggedIn">Sign out</button>
+        <button type="submit" class="btn" ng-click="openSettings()" ng-show="isLoggedIn">Account</button>
+      </form>
+    </div><!--/.navbar-collapse -->
+  </div>
+</nav>

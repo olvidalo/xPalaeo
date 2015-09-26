@@ -1,0 +1,101 @@
+<div id="reporting">
+<div class="col-md-3">
+<h3><a ng-href="#/reporting">Übersicht</a></h3>
+<h3>Benutzer</h3>
+<ul>
+  <li ng-repeat="(name, mbox) in users"><a ng-href="#/reporting/{{mbox|encodeUri}}">{{name}}</a></li>
+</ul>
+</div>
+<div class="col-md-9" ng-show="showOverview">
+  <h2>Dozentenübersicht</h2>
+  <div class="row">
+    <div class="col-md-6 infobox">
+      <span class="info">{{startedTranscriptions.length}} begonnene Transkriptionen</span>
+      <ul>
+        <li ng-repeat="transcription in startedTranscriptions">
+          {{titleForActivity(transcription.object.id)}} ({{transcription.actor.name}})
+        </li>
+      </ul>
+    </div>
+    <div class="col-md-6 infobox">
+      <span class="info">{{submittedTranscriptions.length}} eingereichte Transkriptionen</span>
+      <ul>
+        <li ng-repeat="transcription in submittedTranscriptions">
+          <a ng-href="#/reporting/{{transcription.actor.name}}/?activity={{transcription.object.id|encodeUri}}">{{titleForActivity(transcription.object.id)}}</a> ({{transcription.actor.name}})
+        </li>
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+
+  <div class="col-md-6 infobox">
+    <span class="info">{{gradedTranscriptions.length}} bewertete Transkriptionen</span>
+    <ul>
+      <li ng-repeat="transcription in gradedTranscriptions">
+        <a href="" ng-click="hide=!hide">{{titleForActivity(transcription.object.id)}}</a> ({{transcription.actor.name}}, {{transcription.verb.display['en-US']}})
+        <div class="transcriptioncontent" ng-show="hide">
+          <prettify target="transcription"><code class="prettyprint lang-xml">{{transcription.result.response}}</code></prettify>
+        </div>
+      </li>
+    </ul>
+  </div>
+    <div class="col-md-6 infobox">
+      <span class="info">{{Utils.keys(submittedCorrections).length}} Korrekturvorschläge</span>
+      <ul>
+        <li ng-repeat="correction in submittedCorrections">
+          <a href="" ng-click="hide=!hide">{{statementRefs[correction.object.id].actor.name}}: {{titleForActivity(statementRefs[correction.object.id].object.id)}}</a> (korr. von {{correction.actor.name}}) 
+          <div class="row" ng-show="hide">
+            <div class="col-md-6">
+              <h4>Original von {{statementRefs[correction.object.id].actor.name}}</h4>
+              <div class="transcriptioncontent">
+                <prettify target="statementRefs"><code class="prettyprint lang-xml">{{statementRefs[correction.object.id].result.response}}</code></prettify>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <h4>Korretur von {{correction.actor.name}}</h4>
+              <div class="transcriptioncontent">
+                <prettify target="correction"><code class="prettyprint lang-xml">{{correction.result.response}}</code></prettify>
+              </div>
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-9" ng-show="!showOverview" ng-controller="UserDetailController">
+  <h2>Übersicht für {{user.name[0] === undefined? user.mbox[0] : user.name[0]}}</h2>
+  <h3>Noch nicht bewertete Transkriptionen</h3>
+  <ul>
+    <li ng-repeat="transcription in submittedTranscriptions">
+      <a href="" ng-click="hide=!hide">{{titleForActivity(transcription.object.id)}}</a> ({{transcription.actor.name}})
+       <div ng-show="hide">
+        <form>
+          <input type="submit" class="btn btn-success" value="Bestanden" name="approve" ng-click="approveTranscription(transcription)"/>
+          <input type="submit" class="btn btn-danger" value="Nicht bestanden" name="disapprove" ng-click="disapproveTranscription(transcription)"/>
+        </form>
+        <div class="row">
+          <div class="col-md-6">
+            <h4>Referenztranskription</h4>
+            <div class="reference-transcription">
+            <prettify target="TEIs"><code class="prettyprint lang-xml">{{TEIs[transcription.object.id].TEI.text.body | toXml}}</code></prettify>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <h4>Benutzertranskription</h4>
+            <div class="user-transcription">
+            <prettify target="TEIs"><code class="prettyprint lang-xml">{{transcription.result.response}}</code></prettify>
+            </div>
+          </div>
+        </div>
+      </div>
+    </li>
+  </ul>
+
+  <h3>Aktivitätshistorie</h3>
+  <div>
+    <activitystream user="{{user.mbox[0]}}"></activitystream>
+  </div>
+</div>
+

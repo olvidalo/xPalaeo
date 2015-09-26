@@ -1,0 +1,36 @@
+{
+  "name": "xpalaeo",
+  "version": "0.0.0",
+  "authors": [
+    "Marcel Schaeben <m.schaeben@uni-koeln.de>"
+  ],
+  "license": "GPLv3",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.5",
+    "angular-basicauth": "~0.3.0",
+    "angular-encode-uri": "~1.0.0",
+    "angular-linq": "~1.0.0",
+    "angular-route": "~1.4.6",
+    "angular-xml": "~2.2.1",
+    "bootstrap": "~3.3.5",
+    "code-prettify": "*",
+    "jquery": "~2.1.4",
+    "linqjs": "~3.0.5",
+    "ngDialog": "~0.5.1",
+    "xAPIWrapper": "git://github.com/adlnet/xAPIWrapper#v1.6.0",
+    "angular-xslt": "~0.2.1",
+    "vkBeautify": "vkbeautify#*",
+    "angular-ui-ace": "~0.2.3",
+    "angular-image-zoom": "~0.2.0"
+  },
+  "resolutions": {
+    "angular": "~1.4.5"
+  }
+}

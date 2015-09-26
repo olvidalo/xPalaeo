@@ -1,0 +1,8 @@
+/bower_components/
+/dist/
+/docs/
+/node_modules/
+*.sublime-*
+secrets.json
+.DS_Store
+

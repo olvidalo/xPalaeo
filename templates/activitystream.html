@@ -1,0 +1,18 @@
+<div class="activitystream">
+	  <ul>
+	    <li ng-repeat="stmt in statements">
+	    	<div ng-if="stmt.object.objectType != 'StatementRef'">
+		      <span class="actor">{{stmt.actor.name}} </span>
+		      <span class="verb">{{stmt.verb.display["de-DE"]}} </span>
+		      <span class="object">{{$root.titleForActivity(stmt.object.id)}} </span>
+		    </div>
+		    <div ng-if="stmt.object.objectType == 'StatementRef'">
+		    	<span class="actor">{{stmt.actor.name}} </span>
+		    	<span class="verb">korrigierte den Versuch für <span>
+		    	<span class="object">{{$root.titleForActivity(statementRefs[stmt.object.id].object.id)}} </span>
+		    	<span class="von">von </span>
+		    	<span class="actor">{{statementRefs[stmt.object.id].actor.name}}</span>
+		    </div>
+	    </li>
+	  </ul>
+</div>

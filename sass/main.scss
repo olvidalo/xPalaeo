@@ -1,0 +1,80 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+#main, #reporting, #login {
+	padding-left: 30px;
+	padding-top: 50px;
+}
+
+#main {
+
+	.success {
+		color: #419641;
+	}
+	
+	.facsimile {
+		margin-top: 40px;
+		margin-bottom: 20px;
+	}
+
+	.transcription {
+		input {
+			margin-top: 10px;
+		}
+	}
+}
+
+#login {
+	.acc {
+		margin-top: 50px;
+	}
+}
+
+.facsimile {
+	height: 350px;
+
+	img {
+		height: inherit;
+	}
+}
+
+.navbar-brand {
+	&.students {
+		color: #9d9d9d;
+	}
+	&.teachers {
+		color: #FF8D58;
+	}
+}
+
+#reporting {
+	.info {
+		font-size: 20px;
+		font-weight: bold;
+	}
+
+	.infobox {
+		margin-top: 2em;
+	}
+}
+.activitystream-view {
+	background-color: floralwhite;
+	border-top: solid 1px lightgray;
+	margin-top: 100px;
+	padding-top: 20px;
+
+	h3 {
+		padding-bottom: 1em;
+	}
+}
+
+
+
+
+
+
+
+
