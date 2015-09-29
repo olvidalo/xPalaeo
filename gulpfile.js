@@ -80,22 +80,6 @@ gulp.task('ace', [], function () {
 });
 
 gulp.task('deploy', ['build'], function() {
-	/*var conf = {
-      "progress": true,
-      "root": 'dist',
-      "hostname": secrets.servers.dev.hostname,
-      "destination": secrets.servers.dev.destination,
-      "username": secrets.servers.dev.username,
-      "verbose": 'true',
-      "options": {
-      	'verbose': true
-      }
-    };
-
-	log(conf);
-  gulp.src('dist/**')
-    .pipe(rsync(conf));*/
-
     ssh = new gssh({
     	sshConfig: secrets.servers.dev,
     	ignoreErrors: false
@@ -103,6 +87,16 @@ gulp.task('deploy', ['build'], function() {
 
     return gulp.src('dist/**')
     		.pipe(ssh.dest('/var/www/virtual/mts/xpalaeo.mts.aldebaran.uberspace.de'));
+});
+
+gulp.task('deploy-docs', ['ngdocs'], function() {
+    ssh = new gssh({
+    	sshConfig: secrets.servers.dev,
+    	ignoreErrors: false
+    });
+
+    return gulp.src('docs/**')
+    		.pipe(ssh.dest('/var/www/virtual/mts/xpalaeo.mts.aldebaran.uberspace.de/docs'));
 });
 
 gulp.task('build', ['usemin', 'styles', 'scripts', 'templates', 'ace']);
