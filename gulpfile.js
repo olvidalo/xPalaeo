@@ -10,15 +10,16 @@ var	path = require('path'),
     rsync = require('gulp-rsync'),
     gssh = require('gulp-ssh'),
     clean = require('gulp-clean'),
+    uglify = require('gulp-uglify'),
     log = utils.log
 ;
 
 gulp.task('usemin', function() {
   return gulp.src('./*.html')
     .pipe(usemin({
-      css: [ /*rev()*/ ],
+      css: [ rev() ],
       html: [ /*rev()*/ /*minifyHtml({ empty: true }) */],
-      js: [ /*uglify(),*/ rev() ],
+      js: [ uglify(), rev() ],
       inlinejs: [ /*uglify() */],
       inlinecss: [ /*rev()*/ /*minifyCss(), 'concat'*/ ]
     }))
@@ -47,7 +48,7 @@ gulp.task('styles', function() {
 });
 
 gulp.task('scripts', function() {
-	gulp.src('js/**/*.js')
+	gulp.src(['js/**/*.js', '!js/xpalaeo.conf.js'])
 	    .pipe(gulp.dest('./dist/js/', ['scripts']));
 });
 

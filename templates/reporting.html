@@ -21,7 +21,7 @@
       <span class="info">{{submittedTranscriptions.length}} eingereichte Transkriptionen</span>
       <ul>
         <li ng-repeat="transcription in submittedTranscriptions">
-          <a ng-href="#/reporting/{{transcription.actor.name}}/?activity={{transcription.object.id|encodeUri}}">{{titleForActivity(transcription.object.id)}}</a> ({{transcription.actor.name}})
+          <a ng-href="#/reporting/{{transcription.actor.mbox}}">{{titleForActivity(transcription.object.id)}}</a> ({{transcription.actor.name}})
         </li>
       </ul>
     </div>

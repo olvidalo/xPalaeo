@@ -48,9 +48,9 @@ app.factory('transcriptionQuery', ['$http', '$rootScope', function($http, $rootS
      * Statements verarbeitet.
      */
   	getStartedTranscriptions: function(agent, callback) {
-      ADL.XAPIWrapper.getStatements(makeSearch(null, ADL.verbs.launched.id), null, function(responseLaunched) {
-         ADL.XAPIWrapper.getStatements(makeSearch(null, ADL.verbs.exited.id), null, function(responseExited) {
-            ADL.XAPIWrapper.getStatements(makeSearch(null, ADL.verbs.attempted.id), null, function(responseAttempted) {
+      ADL.XAPIWrapper.getStatements(makeSearch(agent, ADL.verbs.launched.id), null, function(responseLaunched) {
+         ADL.XAPIWrapper.getStatements(makeSearch(agent, ADL.verbs.exited.id), null, function(responseExited) {
+            ADL.XAPIWrapper.getStatements(makeSearch(agent, ADL.verbs.attempted.id), null, function(responseAttempted) {
                var stmts = Enumerable
                            .from(angular.fromJson(responseLaunched.response).statements)
                            .concat(angular.fromJson(responseExited.response).statements)
